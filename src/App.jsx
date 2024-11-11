@@ -7,7 +7,7 @@ function App(){
     setTask(e.target.value);
   }
   const submitTask = e => {
-    // e.preventDefault();
+    e.preventDefault();
     // console.log(task);
     const newTask = [...taskList, task];
     setTaskList(newTask);
