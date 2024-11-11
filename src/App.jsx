@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import {v4 as uuidv4} from 'uuid';
 
 function App(){
   const [task, setTask] = useState('');
@@ -9,12 +10,18 @@ function App(){
   const submitTask = e => {
     e.preventDefault();
     // console.log(task);
-    const newTask = [...taskList, task];
-    setTaskList(newTask);
+    // const newTask = [...taskList, task];
+    const newTask = {
+      id:uuidv4(),
+      title: task,
+      completed:false,
+      createdAt: new Date(),
+    };
+    setTaskList([...taskList, newTask]);
     setTask('');
   }
-  const removeTask = (index) =>{
-    const updatedTaskList = taskList.filter((_,i) => i != index);
+  const removeTask = (id) =>{
+    const updatedTaskList = taskList.filter((task) => task.id != id);
     setTaskList(updatedTaskList);
   }
   return(
@@ -25,8 +32,9 @@ function App(){
       <input type='submit' value='AddTask' name='AddTask'></input>
       </form>
       <ul>
-        {taskList.map((task, index) => (
-          <li key={index}>{task}<button onClick={() => removeTask(index)}>Completed</button></li>
+        {taskList.map((task) => (
+          <li key={task.id}>{task.title}<button onClick={() => removeTask(task.id)}>Completed</button>
+          </li>
         )
       )}
       </ul>
